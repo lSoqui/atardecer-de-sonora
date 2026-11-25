@@ -185,8 +185,3 @@ export function valueAt(sky: SonoraSky, now: number): number {
 export function retarget(sky: SonoraSky, to: number, now: number): SonoraSky {
   return { from: valueAt(sky, now), to, at: now }
 }
-
-// El cielo ya puesto, sin movimiento (al cargar o recargar el mod).
-export function settled(to: number): SonoraSky {
-  return { from: to, to, at: 0 }
-}

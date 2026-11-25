@@ -9,7 +9,6 @@ import {
   applyCall,
   retarget,
   settle,
-  settled,
   targetOf,
 } from './progress'
 import type { Call } from './progress'
@@ -101,43 +100,6 @@ async function follow($: EngineInterface, call: Call) {
   }
 }
 
-// Si el mod se carga con la sesión ya empezada, la lista se rehace desde lo hablado.
-async function rebuild($: EngineInterface) {
-  const held = await read($, tasks)
-
-  if (held.source !== null) {
-    return
-  }
-  let board = EMPTY_TASKS
-
-  try {
-    for (const row of await $.session.messages()) {
-      for (const use of row.toolUses) {
-        const change = applyCall(board, {
-          tool: use.tool,
-          input: use.input,
-          result: use.result,
-          text: use.text,
-          isError: use.isError === true,
-        })
-
-        if (change !== null) {
-          board = change
-        }
-      }
-    }
-  } catch (error) {
-    $.ui.log(`atardecer-de-sonora: no pude releer la sesión (${String(error)})`)
-
-    return
-  }
-
-  if (board.source !== null) {
-    await update($, tasks, () => board)
-    await update($, sky, () => settled(targetOf(board.list)))
-  }
-}
-
 export const register: Register = on => {
   on('session.start', async ($, e, next) => {
     await $.command.register({
@@ -145,8 +107,6 @@ export const register: Register = on => {
       description: 'Enciende o apaga el tema Atardecer de Sonora',
       argumentHint: '[on|off]',
     })
-    await rebuild($)
-
     if (problems.some(line => line.startsWith("Desktop won't paint"))) {
       $.ui.log('atardecer-de-sonora: los colores no pasan la prueba de contraste de la app')
     }

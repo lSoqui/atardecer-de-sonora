@@ -1,6 +1,6 @@
 import { expect, test } from 'claude-code/testing'
 
-import { CALM, EMPTY_TASKS, SHIFT_MS, applyCall, retarget, settle, settled, targetOf, valueAt } from './progress'
+import { CALM, EMPTY_TASKS, SHIFT_MS, applyCall, retarget, settle, targetOf, valueAt } from './progress'
 import type { Call } from './progress'
 
 const call = (tool: string, input: Record<string, unknown>, extra: Partial<Call> = {}): Call => ({
@@ -88,7 +88,7 @@ test('update_plan: items, advance, done y start, y el cierre del turno', () => {
 })
 
 test('un cambio a medias parte de donde iba el cielo', () => {
-  const first = retarget(settled(0), 0.5, 1000)
+  const first = retarget({ from: 0, to: 0, at: 0 }, 0.5, 1000)
   expect(first.from).toBe(0)
   expect(valueAt(first, 1000)).toBe(0)
   expect(valueAt(first, 1000 + SHIFT_MS)).toBe(0.5)

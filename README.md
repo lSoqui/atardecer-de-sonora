@@ -56,9 +56,10 @@ Para quitarlo del todo: `/plugin uninstall atardecer-de-sonora`.
 ### Qué hace y qué no
 
 - **No añade texto a tus mensajes ni al prompt**, así que no gasta tokens. No hay ningún hook de `prompt.submit` ni de `prompt.compose`. La respuesta de `/atardecer` se marca «solo para ti» y no llega al modelo.
-- Sin llamadas al modelo, sin red y sin escribir archivos propios. Lo que recuerda lo guarda en memoria, durante la sesión.
+- Sin llamadas al modelo, sin red y sin escribir archivos propios. **No lee la conversación, archivos, variables de entorno, llaves, contraseñas ni credenciales**: solo ve la entrada y el resultado de las cuatro herramientas de tareas citadas abajo. Lo que recuerda lo guarda en memoria, durante la sesión.
+- Agrega un solo comando, `/atardecer`. No agrega herramientas ni agentes.
 - Corre únicamente:
-  - al cargar la sesión (registra `/atardecer`, relee la lista desde la conversación y pone el tema);
+  - al cargar la sesión (registra `/atardecer` y pone el tema);
   - después de una llamada a `TodoWrite`, `TaskCreate`, `TaskUpdate` o a la lista de tareas de la app (no toca la llamada ni su resultado);
   - al final de cada turno (da por hecha la última tarea del plan, como hace la app);
   - con `/clear` (el cielo vuelve a la calma);
@@ -70,6 +71,7 @@ Para quitarlo del todo: `/plugin uninstall atardecer-de-sonora`.
 - Es un tema siempre oscuro: fuerza el modo oscuro de la app mientras está encendido.
 - Usa la API de mods de Claude Code (hooks de funciones), que está en acceso anticipado y puede cambiar entre versiones. Probado con Claude Code 2.1.330.
 - Si la lista de tareas la lleva otra herramienta que no sea una de las citadas, el mod no la ve y el cielo se queda en calma.
+- Si el mod se carga con la sesión ya empezada, o reanudas una sesión, el cielo se queda en calma hasta que la lista de tareas cambie de nuevo.
 
 ### Desarrollo
 
@@ -78,7 +80,7 @@ claude plugin validate --strict .
 claude plugin test .
 ```
 
-El cielo es una función pura, `hooks/scene.ts`, de «cuánto va el atardecer» y la hora a un SVG; la lectura de la lista está en `hooks/progress.ts` y todo se conecta en `hooks/register.tsx`. `hooks/make-colors.js` y `hooks/make-colors.d.ts` son una herramienta que Claude Code da para copiar en los mods; están sin modificar y no entran en la licencia.
+El cielo es una función pura, `hooks/scene.ts`, de «cuánto va el atardecer» y la hora a un SVG; la lectura de la lista está en `hooks/progress.ts` y todo se conecta en `hooks/register.tsx`. `hooks/make-colors.js` y `hooks/make-colors.d.ts` son una herramienta que Claude Code da para copiar en los mods; están sin modificar y no entran en la licencia. Las cadenas largas de dígitos hexadecimales de `make-colors.js` son las tablas de colores del sistema de diseño (cada 6 dígitos, un color); no son datos codificados.
 
 ### Licencia
 
@@ -138,9 +140,10 @@ To remove it completely: `/plugin uninstall atardecer-de-sonora`.
 ### What it does and does not do
 
 - **It adds no text to your messages or to the prompt**, so it spends no tokens. There is no `prompt.submit` or `prompt.compose` hook. The reply to `/atardecer` is marked display-only and never reaches the model.
-- No model calls, no network and no files of its own. What it remembers lives in memory for the session.
+- No model calls, no network and no files of its own. **It does not read the conversation, files, environment variables, keys, passwords or credentials**: it only sees the input and result of the four task tools listed below. What it remembers lives in memory for the session.
+- It adds a single command, `/atardecer`. It adds no tools or agents.
 - It only runs:
-  - when the session loads (registers `/atardecer`, rebuilds the list from the conversation and sets the theme);
+  - when the session loads (registers `/atardecer` and sets the theme);
   - after a call to `TodoWrite`, `TaskCreate`, `TaskUpdate` or the app's task list (it leaves the call and its result alone);
   - at the end of each turn (it counts the plan's last task as done, as the app does);
   - on `/clear` (the sky goes back to calm);
@@ -152,6 +155,7 @@ To remove it completely: `/plugin uninstall atardecer-de-sonora`.
 - It is an always-dark theme: it forces the app's dark mode while it is on.
 - It uses Claude Code's mod API (function hooks), which is early access and may change between releases. Tested with Claude Code 2.1.330.
 - If the task list is kept by a tool other than those listed, the mod does not see it and the sky stays calm.
+- If the mod loads after the session has already started, or you resume a session, the sky stays calm until the task list changes again.
 
 ### Development
 
@@ -160,7 +164,7 @@ claude plugin validate --strict .
 claude plugin test .
 ```
 
-The sky is a pure function, `hooks/scene.ts`, from "how far along the sunset is" and the time to an SVG; reading the list lives in `hooks/progress.ts` and everything is wired together in `hooks/register.tsx`. `hooks/make-colors.js` and `hooks/make-colors.d.ts` are a helper that Claude Code provides to be copied into mods; they are unmodified and not covered by the license.
+The sky is a pure function, `hooks/scene.ts`, from "how far along the sunset is" and the time to an SVG; reading the list lives in `hooks/progress.ts` and everything is wired together in `hooks/register.tsx`. `hooks/make-colors.js` and `hooks/make-colors.d.ts` are a helper that Claude Code provides to be copied into mods; they are unmodified and not covered by the license. The long runs of hexadecimal digits in `make-colors.js` are the design system's color tables (six digits per color), not encoded data.
 
 ### License
 

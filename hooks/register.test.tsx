@@ -19,7 +19,6 @@ function engine(on: Parameters<TestBody>[1], now: () => number) {
   on('clock.now', () => ({ value: now() }))
   on('command.register', () => ({ value: { command: 'atardecer' } }))
   on('theme.set', () => ({ value: { isDrawn: true, requestId: 'backdrop' } }))
-  on('session.messages', () => ({ value: [] }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
   on('tool.call', () => ({ result: {} }))
 }
