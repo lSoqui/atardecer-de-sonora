@@ -1,0 +1,14 @@
+{
+  "name": "atardecer-de-sonora",
+  "version": "0.1.0",
+  "description": "Tema «Atardecer de Sonora» / Sonoran Sunset theme: un atardecer animado que baja con cada tarea terminada / an animated sunset that sets as your tasks get done.",
+  "author": {
+    "name": "lSoqui",
+    "url": "https://github.com/lSoqui"
+  },
+  "homepage": "https://github.com/lSoqui/atardecer-de-sonora",
+  "repository": "https://github.com/lSoqui/atardecer-de-sonora",
+  "license": "MIT",
+  "keywords": ["theme", "tema", "sunset", "atardecer", "sonora", "tasks"],
+  "types": "./types/index.d.ts"
+}

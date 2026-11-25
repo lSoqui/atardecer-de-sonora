@@ -1,0 +1,17 @@
+{
+  "name": "atardecer-de-sonora",
+  "owner": {
+    "name": "lSoqui",
+    "url": "https://github.com/lSoqui"
+  },
+  "metadata": {
+    "description": "Tema «Atardecer de Sonora» para Claude Code / Sonoran Sunset theme for Claude Code."
+  },
+  "plugins": [
+    {
+      "name": "atardecer-de-sonora",
+      "source": "./",
+      "description": "Un atardecer animado detrás de la conversación; el sol baja con cada tarea terminada. / An animated sunset behind the conversation; the sun sets as each task is completed."
+    }
+  ]
+}
